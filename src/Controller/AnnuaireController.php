@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Contact;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AnnuaireController extends AbstractController
 {
@@ -12,26 +13,25 @@ class AnnuaireController extends AbstractController
     public function index(): Response
     {
         $contacts = [
-            [
-                'nom' => 'Dupont',
-                'prenom' => 'Marc',
-                'telephone' => '0123456789',
-            ],
-            [
-                'nom' => 'Lewitt',
-                'prenom' => 'Joe',
-                'telephone' => '0123456789',
-            ],            [
-                'nom' => 'Marple',
-                'prenom' => 'Tania',
-                'telephone' => '0123456789',
-            ],
+            $this->createContact('Marple','Tania','0123456789'),
+            $this->createContact('George','Saw','0123456789'),
+            $this->createContact('Dawson','Jack','0123456789'),
+
         ];
 
         return $this->render('annuaire/index.html.twig', [
             'contacts' => $contacts,
         ]);
     }
+
+    private function createContact(string $nom, string $prenom, string $telephone): Contact
+{
+        $contact = new Contact();
+        $contact->setNom($nom);
+        $contact->setPrenom($prenom);
+        $contact->setTelephone($telephone);
+        return $contact;
+}
 }
 
 
