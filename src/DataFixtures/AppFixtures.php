@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use Faker\Factory;
 use App\Entity\Contact;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -10,23 +11,23 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $contacts = [
-            $this->createContact('Marple','Tania','0123456789'),
-            $this->createContact('George','Saw','0123456789'),
-            $this->createContact('Dawson','Jack','0123456789'),
-            $this->createContact('Dawson','Rose','0123456789'),
+        
+        $faker = Factory::create('es_ES');
 
-
-        ];
-
-        foreach ($contacts as $contact){
+        for ($i=0; $i < 50; $i++) {
+            $contact = $this->createContact(
+                    $faker->lastName(),
+                    $faker->firstName(),
+                    $faker->phoneNumber()
+                );
 
             $manager->persist($contact);
         }
 
         $manager->flush();
-    }
-    
+
+        } 
+
     private function createContact(string $nom, string $prenom, string $telephone): Contact
     {
             $contact = new Contact();
